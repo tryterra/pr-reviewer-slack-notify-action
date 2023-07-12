@@ -15,6 +15,8 @@ export const createInitialMessage = async (): Promise<string | void> => {
     const { repository } = github.context.payload;
     const pull_request = await getPrForCommit();
 
+    logger.info(`Pull request: ${pull_request} & Repo ${repository}`)
+
     if (!pull_request || !repository) return;
 
     const requestedReviewers = pull_request.requested_reviewers ? pull_request.requested_reviewers.map((user: any) => user.login) : [];
@@ -22,6 +24,8 @@ export const createInitialMessage = async (): Promise<string | void> => {
     //
     // ─── RETURN IF THERE ARE NO REQUESTED REVIEWERS ──────────────────
     //
+
+    logger.info(`Requested reviewers: ${requestedReviewers}`)
 
     if (!requestedReviewers.length) {
       return;
